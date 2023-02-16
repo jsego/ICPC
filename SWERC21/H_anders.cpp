@@ -19,7 +19,7 @@ int main() {
 			if ((W - 0) % ((L - 2) / i) == 0 && (L - 2) % i == 0) S.insert((L - 2) / i);
 		}
 		cout << S.size();
-		for (auto i = S.begin(); i != S.end(); ++i) cout << " " << *i;
+		for (int x : S) cout << " " << x;
 		cout << "\n";
 	}
 }
