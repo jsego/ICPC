@@ -1,9 +1,6 @@
-#include<iostream>
-#include<string>
-#include<sstream>
-#include<set>
-#include<algorithm>
-#include<vector>
+// G - VivoParc
+
+#include<bits/stdc++.h>
 using namespace std;
 #define LE length()
 #define SL size()
@@ -42,16 +39,23 @@ int main(){
 		}
 		for(int i=1;i<=N;i++) A[i] = (rand()%4)+1;
 		int collisions = calculate_collisions(),current_col;
-		int v;
+		int v, counter = 5;
 		while(collisions > 0){
 			for(int i=1;i<=N;i++){
 				v = A[i]; 
 				A[i] = (rand()%4) + 1;
 				current_col = calculate_collisions();
-				if(current_col < collisions) collisions = current_col;
+				if(current_col < collisions){ collisions = current_col; counter=5; }
 				else A[i] = v;
 			}
+			--counter;
+			if(counter == 0){
+				for(int i=1;i<=N;i++) A[i] = (rand()%4)+1; // reset
+				collisions = calculate_collisions();
+			} 
+				
 		}
-		for(int i=1;i<=N;i++) cout<<i<<" "<<A[i]<<endl;
+		for(int i=1;i<=N;i++) cout<<i<<" "<<A[i]<<'\n';
 	}
 }
+
