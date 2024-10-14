@@ -1,4 +1,4 @@
-ACM
+ICPC
 ===
 
-Programming Solutions to ACM problems
+Solutions to ICPC programming contests
