@@ -1,14 +1,14 @@
 // A - Mixing Colours
-// TLE in Codeforces
-// WA in Kattis (& long double is TLE)
+// TLE in Codeforces & Kattis
+// next attempt: try incremental sets instead of DP
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
 
-double Game[501][501][101]; // (from, to, color)
-string color_names[101];
+double Game[501][501][301]; // (from, to, color)
+string color_names[301];
 
 int main(){
 	int R; 
@@ -38,17 +38,20 @@ int main(){
 		
 		int games; cin >> games;
 		while(games--){
+			double min_val = log(0.0);
 			int total_tokens; cin >> total_tokens;
 			// Reset game values
 			for(int i=0;i<total_tokens;++i)
-				for(int j=0; j<total_tokens; ++j)
+				for(int j=i; j<total_tokens; ++j)
 					for(int k=0; k<total_colors; ++k)
-						Game[i][j][k] = 0.0;
+						Game[i][j][k] = min_val;
 			// Read the input tokens for the current game
+			double val;
 			for(int c = 0; c < total_tokens; ++c){
 				while(cin >> color, color != "END"){
 					auto it = Colors.find(color);
-					cin >> Game[c][c][it->second];
+					cin >> val;
+					Game[c][c][it->second] = log(val);
 				}	
 			}
 			
@@ -60,10 +63,12 @@ int main(){
 						// production [i,mid] + [mid+1,j]
 						for(int c=0; c<total_colors; ++c){ 
 							// iterate over production rules of color=c
-							max_c = 0.0;
+							max_c = min_val;
 							for(auto&& [a,b] : production_rules[c]){
-								max_c = max(max_c, Game[i][mid][a]*Game[mid+1][j][b]);
-								max_c = max(max_c, Game[i][mid][b]*Game[mid+1][j][a]);
+								if(Game[i][mid][a]!= min_val && Game[mid+1][j][b] != min_val)
+									max_c = max(max_c, Game[i][mid][a]+Game[mid+1][j][b]);
+								if(Game[i][mid][b]!= min_val && Game[mid+1][j][a] != min_val)
+									max_c = max(max_c, Game[i][mid][b]+Game[mid+1][j][a]);
 							}
 							//cout << "[" << i << "," << mid << "]+["<<(mid+1) <<","<<j<<"]["<<c<<"] = "<<max_c<<'\n';
 							Game[i][j][c] = max(Game[i][j][c], max_c);
@@ -73,7 +78,7 @@ int main(){
 			}
 			
 			// Print max color if that exists
-			double max_val = 0.0;
+			double max_val = min_val;
 			int color_idx = -1;
 			for(int c=0; c<total_colors; ++c){
 				if(Game[0][total_tokens-1][c] > max_val){
