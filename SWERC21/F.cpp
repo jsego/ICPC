@@ -1,6 +1,7 @@
-//
-// Created by js on 13/02/23.
-//
+/*
+ * F - Bottle Arrangements
+ */
+ 
 #include<bits/stdc++.h>
 
 using namespace std;

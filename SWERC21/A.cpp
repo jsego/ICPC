@@ -1,7 +1,6 @@
-
-//
-// Created by js on 13/02/23.
-//
+/*
+ * A - Organizing SWERC
+ */
 
 #include<bits/stdc++.h>
 
