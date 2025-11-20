@@ -9,7 +9,7 @@ int depth[100002];
 
 int DFS(int n){
 	if(depth[n] != -1) return depth[n];
-	if(A[n].size() == 0) return 1;
+	if(A[n].size() == 0){ depth[n]=1; return 1;}
 	int maxi = 0;
 	for(size_t i=0; i<A[n].size(); ++i){
 		maxi = max(maxi, 1 + DFS(A[n][i]));
@@ -20,18 +20,19 @@ int DFS(int n){
 
 int main(){
 	while(cin >> N){
-		memset(IN, 0, N);
-		memset(depth, -1, N);
 		int refs, num_leaves = 0;
+		for(int i=1; i<=N; ++i) IN[i]=0, depth[i]=-1;
 		for(int i=1; i<=N; ++i){
 			cin >> refs;
 			if(refs == 0) ++num_leaves;
 			A[i].resize(refs, 0);
 			for(int j=0; j<refs; ++j){
 				cin >> A[i][j];
+				++IN[A[i][j]];
 			}
 			
 		}
+		
 		// if leaves != 1 => 0
 		if(num_leaves != 1){
 			cout << "0\n"; continue;
@@ -44,6 +45,7 @@ int main(){
 				root = i; ++num_roots;
 			}
 		}
+		
 		if(num_roots != 1){
 			cout << "0\n"; continue;
 		}
